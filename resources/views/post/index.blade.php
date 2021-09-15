@@ -21,6 +21,7 @@
                     <td>{{ $post->content }}</td>
                     <td>
                         <a href="{{ route('posts.edit', $post->id) }}"><button type="button" class="btn btn-primary">Edit</button></a>
+                        <a href="{{ route('posts.show', $post->id) }}"><button type="button" class="btn btn-primary">Details</button></a>
                         <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
                             @csrf
                             @method('DELETE')

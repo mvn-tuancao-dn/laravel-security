@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Post;
 use Auth;
+use Illuminate\Support\Facades\Gate;
 
 use Illuminate\Http\Request;
 
@@ -15,8 +16,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        $listPost = Post::all();
-        return view('post.index', compact('listPost'));
+        if(Gate::allows('list-post')) {
+            $listPost = Post::all();
+            return view('post.index', compact('listPost'));
+        } else {
+            return view('errors.message');
+        }
     }
 
     /**
@@ -27,6 +32,7 @@ class PostController extends Controller
     public function create()
     {
         return view('post.create');
+        
     }
 
     /**
@@ -37,10 +43,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $data['user_id'] = Auth::id();
-        Post::create($data);
-        return redirect()->route('posts.index')->with('success', 'Add Success');
+        if(Gate::allows('create-post')) {
+            $data = $request->all();
+            $data['user_id'] = Auth::id();
+            Post::create($data);
+            return redirect()->route('posts.index')->with('success', 'Add Success');
+        } else {
+            return view('errors.message');
+        }
     }
 
     /**
