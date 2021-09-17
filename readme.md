@@ -18,4 +18,12 @@
 
 ### Role = 2 chỉ có quyền xem danh sách bài viết ( không có quyền create, update, delete, details)
 
-## Role = 3 có quyền tạo bài viết và xem danh sách bài viết ( khoogn có quyền update, delete, details)
+### Role = 3 có quyền tạo bài viết và xem danh sách bài viết ( không có quyền update, delete, details)
+
+## Câu 7 ( phân quyền sử dụng Policy ):
+
+### Role = 1 chỉ có quyền tạo bài viết ( không có quyền xem danh sách, update, delete, details)
+
+### Role = 2 chỉ có quyền tạo và xem danh sách tất cả bài viết ( không có quyền update, delete, details)
+
+### Role = 4 có quyền tạo bài viết, xem , sửa, xóa bài viết của chính mình
