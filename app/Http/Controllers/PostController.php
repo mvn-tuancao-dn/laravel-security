@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:update,post')->only('update');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,12 +20,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        if(Gate::allows('list-post')) {
-            $listPost = Post::all();
-            return view('post.index', compact('listPost'));
-        } else {
-            return view('errors.message');
-        }
+        $listPost = Post::all();
+        return view('post.index', compact('listPost'));
     }
 
     /**
@@ -32,7 +32,6 @@ class PostController extends Controller
     public function create()
     {
         return view('post.create');
-        
     }
 
     /**
@@ -43,14 +42,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        if(Gate::allows('create-post')) {
+            $this->authorize('create', Post::class);
+
             $data = $request->all();
             $data['user_id'] = Auth::id();
             Post::create($data);
             return redirect()->route('posts.index')->with('success', 'Add Success');
-        } else {
-            return view('errors.message');
-        }
+        
     }
 
     /**
@@ -61,7 +59,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**

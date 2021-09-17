@@ -15,21 +15,23 @@
             </thead>
             <tbody>
                 @foreach($listPost as $key => $post)
-                <tr class="text-center">
-                    <td>{{ $key+1}}</td>
-                    <td>{{ $post->title }}</td>
-                    <td>{{ $post->content }}</td>
-                    <td>
-                        <a href="{{ route('posts.edit', $post->id) }}"><button type="button" class="btn btn-primary">Edit</button></a>
-                        <a href="{{ route('posts.show', $post->id) }}"><button type="button" class="btn btn-primary">Details</button></a>
-                        <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                        
-                    </td>
-                </tr>
+                @can('checkRole', $post)
+                    <tr class="text-center">
+                        <td>{{ $key+1}}</td>
+                        <td>{{ $post->title }}</td>
+                        <td>{{ $post->content }}</td>
+                        <td>
+                            <a href="{{ route('posts.edit', $post->id) }}"><button type="button" class="btn btn-primary">Edit</button></a>
+                            @can('delete', $post)
+                            <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            @endcan
+                        </td>
+                    </tr>
+                @endcan
                 @endforeach
             </tbody>
         </table>
